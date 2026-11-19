@@ -1,0 +1,50 @@
+# ---- Private, local-only material (never published) ----
+README.local.md
+_local/
+
+# ---- Python ----
+__pycache__/
+*.py[cod]
+*.egg-info/
+.eggs/
+build/
+dist/
+*.whl
+
+# ---- Virtual environments ----
+.venv/
+venv/
+env/
+
+# ---- Test, type-check and lint caches ----
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# ---- Secrets (never commit these) ----
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# ---- Model weights and heavy artifacts (downloaded at runtime, not versioned) ----
+*.onnx
+*.pt
+*.pth
+*.safetensors
+*.ckpt
+models_cache/
+
+# ---- Generated output ----
+output/
+salida/
+
+# ---- Editors and OS ----
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db
