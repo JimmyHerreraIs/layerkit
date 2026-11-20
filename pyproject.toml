@@ -1,0 +1,93 @@
+[build-system]
+requires = ["hatchling>=1.25"]
+build-backend = "hatchling.build"
+
+[project]
+name = "layerkit"
+dynamic = ["version"]
+description = "Turn any flat image into editable layers: one transparent PNG per object, plus a manifest to put them back."
+readme = "README.md"
+license = "MIT"
+license-files = ["LICENSE"]
+requires-python = ">=3.10"
+authors = [{ name = "Jimmy Herrera" }]
+keywords = ["image-segmentation", "background-removal", "layers", "computer-vision"]
+classifiers = [
+    "Development Status :: 2 - Pre-Alpha",
+    "Intended Audience :: Developers",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Multimedia :: Graphics",
+    "Typing :: Typed",
+]
+dependencies = []
+
+[project.optional-dependencies]
+dev = [
+    "mypy>=1.10",
+    "pre-commit>=3.7",
+    "pytest>=8.0",
+    "pytest-cov>=5.0",
+    "ruff>=0.6",
+]
+
+[project.scripts]
+layerkit = "layerkit.cli:main"
+
+[project.urls]
+Homepage = "https://github.com/JimmyHerreraIs/layerkit"
+Issues = "https://github.com/JimmyHerreraIs/layerkit/issues"
+Changelog = "https://github.com/JimmyHerreraIs/layerkit/blob/main/CHANGELOG.md"
+
+# The version lives in ONE place: src/layerkit/__init__.py
+[tool.hatch.version]
+path = "src/layerkit/__init__.py"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/layerkit"]
+
+# ---------------------------------------------------------------- ruff
+[tool.ruff]
+line-length = 88
+target-version = "py310"
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = [
+    "E", "W",  # pycodestyle
+    "F",       # pyflakes
+    "I",       # import sorting
+    "B",       # bugbear: likely bugs
+    "UP",      # modern Python syntax
+    "N",       # naming
+    "SIM",     # simplifications
+    "D",       # docstrings
+]
+
+[tool.ruff.lint.pydocstyle]
+convention = "google"
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**" = ["D"]  # tests do not need docstrings
+
+# ---------------------------------------------------------------- mypy
+[tool.mypy]
+strict = true
+python_version = "3.10"
+files = ["src", "tests"]
+mypy_path = "src"
+# Untyped third-party libraries get a per-module override here, never a global ignore:
+# [[tool.mypy.overrides]]
+# module = ["some_untyped_lib.*"]
+# ignore_missing_imports = true
+
+# -------------------------------------------------------------- pytest
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers --cov=layerkit --cov-report=term-missing"
+
+[tool.coverage.run]
+source = ["layerkit"]
+branch = true
