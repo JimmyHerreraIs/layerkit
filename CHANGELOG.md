@@ -7,6 +7,10 @@ and the project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.0.0] - 2026-11-20
+
+First release: the project skeleton. The image features are not implemented yet.
+
 ### Added
 
 - Python package skeleton with a `src/` layout, a `layerkit --version` command and smoke tests.
@@ -15,3 +19,6 @@ and the project adheres to [Semantic Versioning](https://semver.org/).
 - Pull request template, issue forms and Dependabot configuration.
 - Documentation: README (English and Spanish), contributing guide and security policy.
 - MIT license.
+
+[Unreleased]: https://github.com/JimmyHerreraIs/layerkit/compare/v0.0.0...HEAD
+[0.0.0]: https://github.com/JimmyHerreraIs/layerkit/releases/tag/v0.0.0
