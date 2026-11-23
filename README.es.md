@@ -2,7 +2,7 @@
 
 [![CI](https://github.com/JimmyHerreraIs/layerkit/actions/workflows/ci.yml/badge.svg)](https://github.com/JimmyHerreraIs/layerkit/actions/workflows/ci.yml)
 [![Licencia: MIT](https://img.shields.io/badge/license-MIT-blue.svg)](LICENSE)
-[![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue.svg)](pyproject.toml)
+[![Python 3.11+](https://img.shields.io/badge/python-3.11%2B-blue.svg)](pyproject.toml)
 
 **Convierte cualquier imagen plana en capas editables: un PNG transparente por objeto, más un manifiesto para volver a armarla.**
 
