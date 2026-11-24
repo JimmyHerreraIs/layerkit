@@ -1,3 +1,5 @@
+from pathlib import Path
+
 import pytest
 
 from layerkit.core.errors import (
@@ -6,6 +8,7 @@ from layerkit.core.errors import (
     LayerkitError,
     ModelNotAvailableError,
     NoObjectFoundError,
+    OutputExistsError,
     UnknownModelError,
     UnsupportedImageError,
 )
@@ -20,6 +23,7 @@ from layerkit.core.errors import (
         ModelNotAvailableError("missing dependency"),
         UnknownModelError("nope", ["a", "b"]),
         InvalidManifestError("bad manifest"),
+        OutputExistsError([Path("a.png")]),
     ],
 )
 def test_every_error_derives_from_the_base_class(error: Exception) -> None:
@@ -49,6 +53,15 @@ def test_unknown_model_lists_the_valid_choices() -> None:
     assert str(error) == (
         "Unknown model 'nope'. Available models: u2netp, isnet-general-use."
     )
+
+
+def test_output_exists_lists_the_blocking_paths() -> None:
+    error = OutputExistsError([Path("out") / "a.png", Path("out") / "b.png"])
+
+    assert error.paths == (Path("out") / "a.png", Path("out") / "b.png")
+    assert "a.png" in str(error)
+    assert "b.png" in str(error)
+    assert "overwrit" in str(error)
 
 
 def test_base_error_catches_the_whole_family() -> None:
