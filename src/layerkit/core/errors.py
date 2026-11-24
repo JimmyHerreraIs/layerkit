@@ -42,6 +42,10 @@ class ImageTooLargeError(LayerkitError):
         )
 
 
+class InvalidManifestError(LayerkitError):
+    """A manifest is malformed, unsafe or written in an unsupported format."""
+
+
 class ModelNotAvailableError(LayerkitError):
     """A model needs an optional dependency that is not installed."""
 
