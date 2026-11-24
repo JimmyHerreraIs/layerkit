@@ -11,6 +11,7 @@ from layerkit.core.errors import (
     UnsupportedImageError,
 )
 from layerkit.core.types import BoundingBox, Decomposition, Layer
+from layerkit.pipeline import decompose
 
 __version__ = "0.0.0"
 
@@ -23,4 +24,5 @@ __all__ = [
     "NoObjectFoundError",
     "UnsupportedImageError",
     "__version__",
+    "decompose",
 ]
