@@ -7,6 +7,7 @@ family with a single ``except`` clause.
 from __future__ import annotations
 
 from collections.abc import Sequence
+from pathlib import Path
 
 _PIXELS_PER_MEGAPIXEL = 1_000_000
 
@@ -44,6 +45,27 @@ class ImageTooLargeError(LayerkitError):
 
 class InvalidManifestError(LayerkitError):
     """A manifest is malformed, unsafe or written in an unsupported format."""
+
+
+class OutputExistsError(LayerkitError):
+    """Writing would replace files that already exist.
+
+    Attributes:
+        paths: The existing paths that block the export.
+    """
+
+    def __init__(self, paths: Sequence[Path]) -> None:
+        """Store the blocking paths and build a readable message.
+
+        Args:
+            paths: The existing paths that block the export.
+        """
+        self.paths = tuple(paths)
+        listed = ", ".join(str(path) for path in self.paths)
+        super().__init__(
+            f"Refusing to overwrite existing files: {listed}. "
+            "Choose another folder or allow overwriting."
+        )
 
 
 class ModelNotAvailableError(LayerkitError):
