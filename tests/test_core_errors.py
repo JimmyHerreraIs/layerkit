@@ -2,6 +2,7 @@ import pytest
 
 from layerkit.core.errors import (
     ImageTooLargeError,
+    InvalidManifestError,
     LayerkitError,
     ModelNotAvailableError,
     NoObjectFoundError,
@@ -18,6 +19,7 @@ from layerkit.core.errors import (
         NoObjectFoundError(coverage=0.0),
         ModelNotAvailableError("missing dependency"),
         UnknownModelError("nope", ["a", "b"]),
+        InvalidManifestError("bad manifest"),
     ],
 )
 def test_every_error_derives_from_the_base_class(error: Exception) -> None:
