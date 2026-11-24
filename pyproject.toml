@@ -9,16 +9,16 @@ description = "Turn any flat image into editable layers: one transparent PNG per
 readme = "README.md"
 license = "MIT"
 license-files = ["LICENSE"]
-requires-python = ">=3.10"
+requires-python = ">=3.11"
 authors = [{ name = "Jimmy Herrera" }]
 keywords = ["image-segmentation", "background-removal", "layers", "computer-vision"]
 classifiers = [
     "Development Status :: 2 - Pre-Alpha",
     "Intended Audience :: Developers",
     "Programming Language :: Python :: 3",
-    "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
     "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
     "Topic :: Multimedia :: Graphics",
     "Typing :: Typed",
 ]
@@ -27,6 +27,10 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
+# Runs the default background-removal model through rembg (heavy install).
+rembg = [
+    "rembg[cpu]>=2.0.60",
+]
 dev = [
     "mypy>=1.10",
     "pre-commit>=3.7",
@@ -53,7 +57,7 @@ packages = ["src/layerkit"]
 # ---------------------------------------------------------------- ruff
 [tool.ruff]
 line-length = 88
-target-version = "py310"
+target-version = "py311"
 src = ["src", "tests"]
 
 [tool.ruff.lint]
@@ -77,18 +81,23 @@ convention = "google"
 # ---------------------------------------------------------------- mypy
 [tool.mypy]
 strict = true
-python_version = "3.10"
+python_version = "3.11"
 files = ["src", "tests"]
 mypy_path = "src"
-# Untyped third-party libraries get a per-module override here, never a global ignore:
-# [[tool.mypy.overrides]]
-# module = ["some_untyped_lib.*"]
-# ignore_missing_imports = true
+
+# Optional or untyped third-party libraries get a per-module override, never a
+# global ignore. rembg is an optional extra, so it may not be installed.
+[[tool.mypy.overrides]]
+module = ["rembg", "rembg.*"]
+ignore_missing_imports = true
 
 # -------------------------------------------------------------- pytest
 [tool.pytest.ini_options]
 testpaths = ["tests"]
-addopts = "-ra --strict-markers --cov=layerkit --cov-report=term-missing"
+addopts = '-ra --strict-markers -m "not integration" --cov=layerkit --cov-report=term-missing'
+markers = [
+    "integration: needs the optional rembg extra and downloads model weights (run with -m integration)",
+]
 
 [tool.coverage.run]
 source = ["layerkit"]

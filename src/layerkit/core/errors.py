@@ -6,6 +6,8 @@ family with a single ``except`` clause.
 
 from __future__ import annotations
 
+from collections.abc import Sequence
+
 _PIXELS_PER_MEGAPIXEL = 1_000_000
 
 
@@ -37,6 +39,32 @@ class ImageTooLargeError(LayerkitError):
         super().__init__(
             f"Image has {pixels / _PIXELS_PER_MEGAPIXEL:.1f} MP; "
             f"the maximum allowed is {max_pixels / _PIXELS_PER_MEGAPIXEL:.1f} MP."
+        )
+
+
+class ModelNotAvailableError(LayerkitError):
+    """A model needs an optional dependency that is not installed."""
+
+
+class UnknownModelError(LayerkitError):
+    """The requested model name does not exist.
+
+    Attributes:
+        name: The name that was requested.
+        choices: The names that are available.
+    """
+
+    def __init__(self, name: str, choices: Sequence[str]) -> None:
+        """Store the name and the valid choices and build a readable message.
+
+        Args:
+            name: The name that was requested.
+            choices: The names that are available.
+        """
+        self.name = name
+        self.choices = tuple(choices)
+        super().__init__(
+            f"Unknown model {name!r}. Available models: {', '.join(self.choices)}."
         )
 
 
