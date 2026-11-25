@@ -102,3 +102,7 @@ markers = [
 [tool.coverage.run]
 source = ["layerkit"]
 branch = true
+
+# The test run fails when coverage drops under this percentage.
+[tool.coverage.report]
+fail_under = 90
