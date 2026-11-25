@@ -13,7 +13,7 @@ from layerkit.core.errors import (
 from layerkit.core.types import BoundingBox, Decomposition, Layer
 from layerkit.pipeline import decompose
 
-__version__ = "0.0.0"
+__version__ = "0.1.0"
 
 __all__ = [
     "BoundingBox",

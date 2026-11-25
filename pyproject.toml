@@ -13,7 +13,7 @@ requires-python = ">=3.11"
 authors = [{ name = "Jimmy Herrera" }]
 keywords = ["image-segmentation", "background-removal", "layers", "computer-vision"]
 classifiers = [
-    "Development Status :: 2 - Pre-Alpha",
+    "Development Status :: 3 - Alpha",
     "Intended Audience :: Developers",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.11",
