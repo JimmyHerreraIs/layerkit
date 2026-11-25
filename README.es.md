@@ -81,11 +81,11 @@ Se aceptan JPEG, PNG y WebP. Los errores salen en una línea que empieza por
 from layerkit import decompose
 from layerkit.exporters.png import export_png
 
-result = decompose("photo.jpg")          # fondo + sujeto
+result = decompose("photo.jpg")  # fondo + sujeto
 for layer in result.layers:
     print(layer.name, layer.box, layer.z)
 
-export_png(result, "photo-layers")       # archivos PNG + manifest.json
+export_png(result, "photo-layers")  # archivos PNG + manifest.json
 ```
 
 `decompose` devuelve una `Decomposition` con objetos `Layer` inmutables (imagen
@@ -102,11 +102,14 @@ mismo tamaño. Así el extra pesado `rembg` es opcional:
 from PIL import Image
 from layerkit import decompose
 
+
 class MyModel:
     name = "my-model"
 
     def predict_mask(self, image: Image.Image) -> Image.Image:
-        ...  # devuelve una máscara modo "L" del mismo tamaño que `image`
+        # Devuelve una máscara modo "L" del mismo tamaño que `image`.
+        raise NotImplementedError
+
 
 result = decompose("photo.jpg", model=MyModel())
 ```

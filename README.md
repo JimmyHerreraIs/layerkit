@@ -79,11 +79,11 @@ with `error:` and the exit code is `1`; invalid options exit with `2`.
 from layerkit import decompose
 from layerkit.exporters.png import export_png
 
-result = decompose("photo.jpg")          # background + subject
+result = decompose("photo.jpg")  # background + subject
 for layer in result.layers:
     print(layer.name, layer.box, layer.z)
 
-export_png(result, "photo-layers")       # PNG files + manifest.json
+export_png(result, "photo-layers")  # PNG files + manifest.json
 ```
 
 `decompose` returns a `Decomposition` with immutable `Layer` objects (RGBA
@@ -100,11 +100,14 @@ heavy `rembg` extra is optional:
 from PIL import Image
 from layerkit import decompose
 
+
 class MyModel:
     name = "my-model"
 
     def predict_mask(self, image: Image.Image) -> Image.Image:
-        ...  # return a mode "L" mask with the same size as `image`
+        # Return a mode "L" mask with the same size as `image`.
+        raise NotImplementedError
+
 
 result = decompose("photo.jpg", model=MyModel())
 ```
