@@ -29,6 +29,17 @@ pieza en cualquier editor.
 
 Todo corre **en local, en la CPU**. Tus imágenes no se envían a ningún sitio.
 
+## Ejemplo
+
+![La foto original, y después la capa del sujeto con el modelo por defecto y con el modelo de calidad, sobre un fondo de cuadros que muestra la transparencia](docs/images/example.jpg)
+
+De izquierda a derecha: la foto original, la capa `01_subject.png` con el modelo
+por defecto (`layerkit photo.jpg`) y con el modelo de calidad
+(`layerkit photo.jpg --model isnet-general-use`). El fondo de cuadros muestra la
+transparencia. El modelo de calidad da bordes más limpios y conserva las piernas
+y el brazo izquierdo. Los dos mantienen el cartel sobre el grupo: la v0.1 escribe
+una sola capa de sujeto con todo lo que el modelo considera principal.
+
 ## Instalación
 
 El modelo por defecto corre con [rembg](https://github.com/danielgatis/rembg),

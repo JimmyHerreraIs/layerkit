@@ -29,6 +29,17 @@ piece by piece in any editor.
 
 Everything runs **locally on the CPU**. Your images are never sent anywhere.
 
+## Example
+
+![The original photo, then the subject layer from the default model and from the quality model, over a checkerboard that shows the transparency](docs/images/example.jpg)
+
+From left to right: the original photo, the `01_subject.png` layer from the
+default model (`layerkit photo.jpg`) and from the quality model
+(`layerkit photo.jpg --model isnet-general-use`). The checkerboard shows the
+transparency. The quality model gives cleaner edges and keeps the legs and the
+left arm. Both keep the sign above the group: v0.1 writes a single subject
+layer for everything the model considers the main subject.
+
 ## Install
 
 The default model runs through [rembg](https://github.com/danielgatis/rembg),
