@@ -1,7 +1,7 @@
 import pytest
 from PIL import Image
 
-from layerkit.core.cutout import cut_out
+from layerkit.core.cutout import ALPHA_FLOOR, cut_out
 from layerkit.core.errors import NoObjectFoundError
 from layerkit.core.types import BoundingBox
 from layerkit.models.fake import CenteredBoxModel
@@ -102,6 +102,45 @@ def test_works_with_the_output_of_a_model() -> None:
     layer = cut_out(image, mask)
 
     assert layer.box == BoundingBox(5, 5, 10, 10)
+
+
+def test_faint_noise_far_from_the_object_does_not_stretch_the_crop() -> None:
+    mask = make_mask((40, 40), (10, 10, 20, 20))
+    mask.putpixel((0, 0), 5)
+    mask.putpixel((39, 39), 12)
+
+    layer = cut_out(Image.new("RGB", (40, 40), RED), mask)
+
+    assert layer.box == BoundingBox(10, 10, 10, 10)
+
+
+def test_faint_noise_inside_the_crop_becomes_fully_transparent() -> None:
+    mask = make_mask((40, 40), (10, 10, 20, 20))
+    mask.putpixel((12, 12), 7)
+
+    layer = cut_out(Image.new("RGB", (40, 40), RED), mask)
+
+    assert layer.image.getpixel((2, 2)) == (*RED, 0)
+
+
+@pytest.mark.parametrize(("value", "kept"), [(15, False), (16, True), (200, True)])
+def test_the_alpha_floor_is_sixteen(value: int, kept: bool) -> None:
+    mask = make_mask((40, 40), (10, 10, 20, 20))
+    mask.putpixel((30, 30), value)
+
+    layer = cut_out(Image.new("RGB", (40, 40), RED), mask)
+
+    assert (layer.box.width == 21) is kept
+    assert ALPHA_FLOOR == 16
+
+
+def test_a_mask_with_only_faint_noise_means_there_is_no_object() -> None:
+    mask = Image.new("L", (6, 6), 10)
+
+    with pytest.raises(NoObjectFoundError) as error:
+        cut_out(Image.new("RGB", (6, 6)), mask)
+
+    assert error.value.coverage == pytest.approx(10 / 255)
 
 
 def test_an_empty_mask_means_there_is_no_object() -> None:
