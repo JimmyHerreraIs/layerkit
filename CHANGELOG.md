@@ -7,6 +7,22 @@ and the project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.1.0] - 2026-11-25
+
+First usable release: background removal as a command and as a Python library.
+
+### Added
+
+- `layerkit photo.jpg` command: splits an image into a background layer and a cut-out subject, written as transparent PNG files plus a `manifest.json`. Options: `--output`, `--model`, `--max-pixels`, `--overwrite`.
+- `decompose()` in the Python API, and `layerkit.exporters.png.export_png()` to write the result.
+- Versioned `manifest.json` format with strict validation on read (plain file names only).
+- Image loading with size limits, EXIF orientation and transparency flattening.
+- Foreground-mask validation that rejects masks with no clear object.
+- Model interface (`ForegroundModel`) with a `rembg` adapter for `u2netp` (default) and `isnet-general-use`; `rembg` is the optional extra `layerkit[rembg]`.
+- CI jobs for lint, tests on Python 3.11 to 3.13, package build and pull request title format, with a 90% coverage threshold.
+- Architecture decision records for the default model and the dependencies.
+- README (English and Spanish) with the real usage, the manifest format, the model comparison and a before-and-after example.
+
 ## [0.0.0] - 2026-11-20
 
 First release: the project skeleton. The image features are not implemented yet.
@@ -20,5 +36,6 @@ First release: the project skeleton. The image features are not implemented yet.
 - Documentation: README (English and Spanish), contributing guide and security policy.
 - MIT license.
 
-[Unreleased]: https://github.com/JimmyHerreraIs/layerkit/compare/v0.0.0...HEAD
+[Unreleased]: https://github.com/JimmyHerreraIs/layerkit/compare/v0.1.0...HEAD
+[0.1.0]: https://github.com/JimmyHerreraIs/layerkit/compare/v0.0.0...v0.1.0
 [0.0.0]: https://github.com/JimmyHerreraIs/layerkit/releases/tag/v0.0.0

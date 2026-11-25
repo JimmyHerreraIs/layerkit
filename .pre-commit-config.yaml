@@ -25,4 +25,4 @@ repos:
     hooks:
       - id: mypy
         args: ["--strict"]
-        additional_dependencies: ["pytest>=8.0"]
+        additional_dependencies: ["pytest>=8.0", "Pillow>=10.3"]
