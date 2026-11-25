@@ -1,6 +1,6 @@
 # ADR 0001: Default background-removal model
 
-- **Status:** Proposed (pending verification of the upstream model licenses, see "Licenses")
+- **Status:** Accepted (upstream licenses and weight downloads verified on 2026-11-24, see "Licenses")
 - **Date:** 2026-11-20
 - **Milestone:** v0.1
 
@@ -72,9 +72,13 @@ Observations:
 
 ## Consequences
 
-- The first run downloads the weights (4.6 MB for the default). The weights are
-  hosted on the rembg project's GitHub releases; the download behavior and its
-  integrity checks must be reviewed before v0.1.0.
+- The first run downloads the weights (4.6 MB for the default). `rembg` 2.0.87
+  fetches them from its own GitHub release (`v0.0.0`) and checks an MD5 sum
+  before using them; the check can be turned off with the
+  `MODEL_CHECKSUM_DISABLED` environment variable, and layerkit never does. The
+  files are cached under `~/.rembg/models/<name>` (or `REMBG_HOME`). MD5 guards
+  against a corrupt download, not against a malicious one, so a pinned hash of
+  our own is part of the own-adapter work planned before the PyPI release.
 - The model adapter depends on `rembg` and `onnxruntime`. Whether it ships in
   the base install or as an optional extra is decided in ADR 0003
   (dependencies).
@@ -91,12 +95,17 @@ large photos. Treat the ranking as indicative, not definitive.
 
 ## Licenses
 
-- rembg (code): MIT.
-- BiRefNet: MIT, per its model card.
-- ISNet / DIS: Apache-2.0 according to a secondary source; confirm against the
-  upstream repository.
-- U²-Net (`u2net`, `u2netp`, `silueta`): believed to be Apache-2.0; **not yet
-  verified** against the upstream repository.
+Checked on 2026-11-24 against the upstream repositories:
 
-This ADR moves from Proposed to Accepted once the upstream LICENSE files of the
-chosen models have been read and recorded here.
+- rembg (code): MIT, `Copyright (c) 2020 Daniel Gatis`.
+- U²-Net (`u2netp`, the default): the repository `LICENSE` is Apache-2.0.
+- ISNet / DIS (`isnet-general-use`): the repository `LICENSE.md` is Apache-2.0.
+- BiRefNet: MIT, per its model card (not offered in v0.1).
+
+Both Apache-2.0 files are the unmodified license text with no named copyright
+holder. layerkit does not bundle or redistribute any weights: the user's machine
+downloads them from the rembg project on first use.
+
+Not reviewed: the terms of the datasets the models were trained on. This matters
+if layerkit ever redistributes weights or makes claims about commercial use of
+the models; for now the README tells users to check them.
